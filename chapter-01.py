@@ -16,18 +16,18 @@ vector_basis = []
 # modify the code below to generate n points
 
 n = 4
-
-while not has_sqrtmod_prime_power((x**3 + b) % field_mod, field_mod, 1):
-    # increment x, so hopefully we are on the curve
-    x = (x + 1) % field_mod
-    entropy = entropy + 1
-
-# pick the upper or lower point depending on if entropy is even or odd
-y = list(sqrtmod_prime_power((x**3 + b) % field_mod, field_mod, 1))[entropy & 1 == 0]
-point = (FQ(x), FQ(y))
-assert is_on_curve(point, b), "sanity check"
-vector_basis.append(point)
-
-# new x value
-x = int(sha256(str(x).encode('ascii')).hexdigest(), 16) % field_mod 
+for i in range(n):
+    while not has_sqrtmod_prime_power((x**3 + b) % field_mod, field_mod, 1):
+        # increment x, so hopefully we are on the curve
+        x = (x + 1) % field_mod
+        entropy = entropy + 1
+    
+    # pick the upper or lower point depending on if entropy is even or odd
+    y = list(sqrtmod_prime_power((x**3 + b) % field_mod, field_mod, 1))[entropy & 1 == 0]
+    point = (FQ(x), FQ(y))
+    assert is_on_curve(point, b), "sanity check"
+    vector_basis.append(point)
+    
+    # new x value
+    x = int(sha256(str(x).encode('ascii')).hexdigest(), 16) % field_mod 
 print(vector_basis)
