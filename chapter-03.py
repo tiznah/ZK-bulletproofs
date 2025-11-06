@@ -16,9 +16,6 @@ B = (FQ(128486065350455871287888893172307515183924786911123755697753900951123306
 # remember to do all arithmetic modulo p
 
 def commit(f_0, f_1, f_2, gamma_0, gamma_1, gamma_2, G, B):
-
-
-    # fill this in
     # return the commitments as a tuple (C0, C1, C2)
     C0 = add(multiply(G, f_0), multiply(B, gamma_0))
     C1 = add(multiply(G, f_1), multiply(B, gamma_1))
@@ -29,13 +26,11 @@ def evaluate(f_0, f_1, f_2, u):
     return (f_0 + f_1 * u + f_2 * u**2) % p
 
 def prove(gamma_0, gamma_1, gamma_2, u):
-    # fill this in
     # return pi
     pi = gamma_0 + gamma_1 * u + gamma_2 * u**2 % p
     return pi
 
 def verify(C0, C1, C2, G, B, f_u, pi):
-    # fill this in
     # Return true or false
     left = add(add(C0 , multiply(C1 , u)) , multiply(C2 , u**2))
     right = add(multiply(G, f_u), multiply(B, pi))
