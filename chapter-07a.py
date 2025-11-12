@@ -23,16 +23,35 @@ G_vec = [(FQ(6286155310766333871795042970372566906087502116590250812133967451320
 
 # return a folded vector of length n/2 for scalars
 def fold(scalar_vec, u):
-    pass
 
-# return a folded vector of length n/2 for points
+    u_inv = pow(u, -1, p)
+    
+    a_prime = []
+    for i in range(0, len(scalar_vec), 2):
+        folded_value = (scalar_vec[i] * u + scalar_vec[i+1] * u_inv) % p
+        a_prime.append(folded_value)
+    
+    return a_prime
+
 def fold_points(point_vec, u):
-    pass
+    u_inv = pow(u, -1, p)
+    
+    G_prime = []
+    for i in range(0, len(point_vec), 2):
+        folded_point = add(multiply(point_vec[i], u), multiply(point_vec[i+1], u_inv))
+        G_prime.append(folded_point)
+    
+    return G_prime
 
-# return (L, R)
 def compute_secondary_diagonal(G_vec, a):
-    pass
+    # L uses even indices of a with odd indices of G
+    # R uses odd indices of a with even indices of G
+    
+    L = add_points(*[multiply(G_vec[i], a[i-1]) for i in range(1, len(a), 2)])
 
+    R = add_points(*[multiply(G_vec[i], a[i+1]) for i in range(0, len(a)-1, 2)])
+    
+    return L, R
 a = [4,2,42,420]
 
 P = vector_commit(G_vec, a)
